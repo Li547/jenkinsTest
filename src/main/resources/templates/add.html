@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <style type="text/css">
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+    </style>
+</head>
+<body style="margin-left: 100px;margin-top: 50px">
+
+<form class="form-horizontal" role="form" method="post" th:action="@{/save}">
+    <input type="hidden" name="id" th:value="${f?.id}"/>
+    <div class="form-group">
+        <label for="firstname" class="col-md-2 control-label">姓名</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" name="uname" th:value="${f?.uname}" required="required"  id="firstname"
+                   placeholder="请输入名字">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="lastname" class="col-sm-2 control-label">性别</label>
+        <div class="col-sm-5">
+            <label class="radio-inline">
+                <input type="radio"  value="男" name="sex"  th:attr="checked=${f?.sex=='男'?true:false}">男性
+            </label>
+            <label class="radio-inline">
+                <input type="radio"  value="女" name="sex"  th:attr="checked=${f?.sex=='女'?true:false}">女性
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="clazz" class="col-sm-2 control-label">班级</label>
+        <div class="col-sm-5">
+            <input type="text" required="required" name="clazz" class="form-control" id="clazz" th:value="${f?.clazz}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="score" class="col-sm-2 control-label">成绩</label>
+        <div class="col-sm-5">
+            <input type="text" required="required" name="score" class="form-control" id="score" th:value="${f?.score}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lastname" class="col-sm-2 control-label">生日</label>
+        <div class="col-sm-5">
+            <input type="date" class="form-control" name="birthday" id="lastname" th:value="${#dates.format(f?.birthday,'yyyy-MM-dd')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-4">
+            <button type="submit" class="btn btn-success">提交</button>
+            <button type="button" onclick="history.back()" class="btn btn-info">返回</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>

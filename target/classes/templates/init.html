@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        td,th{
+            text-align: center;
+        }
+        b{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <Table class="table table-striped table-hover table-responsive table-bordered">
+        <Tr>
+            <Th>序号</Th>
+            <Th>姓名</Th>
+            <Th>性别</Th>
+            <Th>班级</Th>
+            <Th>成绩</Th>
+            <Th>考试结果</Th>
+            <th>出生日期</th>
+            <th>操作</th>
+        </Tr>
+        <Tr th:each="k,t:${all.list}">
+            <Td th:text="${t.count+(all.pageNum-1)*all.pageSize}"></Td>
+            <Td th:text="${k.uname}"></Td>
+            <Td th:text="${k.sex}"></Td>
+            <Td th:text="${k.clazz}"></Td>
+            <Td th:text="${k.score}"></Td>
+            <Td>
+                <!--/*@thymesVar id="score" type=""*/-->
+                <span th:if="${k.score ge 90}" style="color:green;font-weight: bold">优秀</span>
+                <span th:if="${k.score ge 80 && k.score lt 90}" style="color:blue;font-weight: bold">良好</span>
+                <span th:if="${k.score ge 60 && k.score lt 80}" style="color:orange;font-weight: bold">合格</span>
+                <span th:if="${k.score lt 60}" style="color:red;font-weight: bold">不合格</span>
+            </Td>
+            <Td th:text="${#dates.format(k.birthday,'yyyy-MM-dd')}"></Td>
+            <Td>
+               <!-- <A th:href="@{/add}" class="btn btn-primary btn-sm">添加</A>-->
+                <A th:href="@{/forward/add}" class="btn btn-primary btn-sm">添加</A>
+                <A th:href="@{|/update/${k.id}|}" class="btn btn-success btn-sm">修改</A>
+                <A th:href="@{|/del/${k.id}|}" class="btn btn-danger btn-sm">删除</A>
+            </Td>
+        </Tr>
+        <Tr>
+            <TD colspan="8">
+                    <span th:if="${all.isFirstPage}">
+                        首页
+                        上一页
+                    </span>
+                <span th:if="${all.hasPreviousPage}">
+                        <a th:href="@{/init/1}">首页</a>
+                        <a th:href="@{|/init/${all.prePage}|}">上一页</a>
+                    </span>
+
+                <span th:if="${all.isLastPage}">
+                        下一页
+                        尾页
+                    </span>
+                <span th:if="${all.hasNextPage}">
+                        <a th:href="@{|/init/${all.nextPage}|}">下一页</a>
+                        <a th:href="@{|/init/${all.pages}|}">尾页</a>
+                    </span>
+
+                共<b>[[${all.total}]]</b>条
+                每页<b>[[${all.pageSize}]]</b>条
+                共<B>[[${all.pages}]]</B>页
+                <select name="page" onchange="location.href='/init/'+this.value">
+                    <div th:each="k:${#numbers.sequence(1,all.pages)}">
+                        <option th:value="${k}" th:attr="selected=${k==all.pageNum?true:false}">第[[${k}]]页</option>
+                    </div>
+                </select>
+
+            </TD>
+        </Tr>
+    </Table>
+</div>
+</body>
+</html>
